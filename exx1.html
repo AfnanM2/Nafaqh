@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تتبع النفقات</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        input, select, button {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>تتبع نفقاتك</h1>
+    </header>
+
+    <div class="container">
+        <h2>إضافة نفقات جديدة</h2>
+        <form id="expense-form">
+            <input type="number" id="amount" placeholder="المبلغ" required>
+            <select id="category" required>
+                <option value="" disabled selected>اختر الفئة</option>
+                <option value="طعام">طعام</option>
+                <option value="ترفيه">ترفيه</option>
+                <option value="مواصلات">مواصلات</option>
+                <option value="أخرى">أخرى</option>
+            </select>
+            <input type="date" id="date" required>
+            <textarea id="notes" placeholder="ملاحظات (اختياري)" rows="3"></textarea>
+            <button type="submit">حفظ النفقات</button>
+        </form>
+
+        <h2>سجل النفقات</h2>
+        <table id="expense-table">
+            <thead>
+                <tr>
+                    <th>التاريخ</th>
+                    <th>الفئة</th>
+                    <th>المبلغ</th>
+                    <th>الملاحظات</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- سيتم إدراج النفقات هنا -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // الحصول على العناصر من DOM
+        const form = document.getElementById('expense-form');
+        const expenseTable = document.getElementById('expense-table').getElementsByTagName('tbody')[0];
+
+        // إضافة حدث عند إرسال النموذج
+        form.addEventListener('submit', function(event) {
+            event.preventDefault(); // منع إعادة تحميل الصفحة
+
+            // الحصول على القيم المدخلة
+            const amount = document.getElementById('amount').value;
+            const category = document.getElementById('category').value;
+            const date = document.getElementById('date').value;
+            const notes = document.getElementById('notes').value;
+
+            // إنشاء صف جديد في الجدول
+            const newRow = expenseTable.insertRow();
+
+            // إدخال البيانات في الصف الجديد
+            const dateCell = newRow.insertCell(0);
+            const categoryCell = newRow.insertCell(1);
+            const amountCell = newRow.insertCell(2);
+            const notesCell = newRow.insertCell(3);
+
+            dateCell.textContent = date;
+            categoryCell.textContent = category;
+            amountCell.textContent = amount + ' ريال';
+            notesCell.textContent = notes ? notes : 'لا توجد ملاحظات';
+
+            // إعادة تعيين الحقول بعد الحفظ
+            form.reset();
+        });
+    </script>
+</body>
+</html>
